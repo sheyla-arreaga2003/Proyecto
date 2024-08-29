@@ -6,7 +6,9 @@ const estadoRoutes = require('./routes/estado')
 const ordenRoutes = require('./routes/orden');
 const ordenDetalleRoutes = require('./routes/ordenDetalle');
 const productoRoutes = require('./routes/producto');
+const authRoutes  = require('./routes/auth');
 const sequelize = require ('./config/db');
+const authenticateToken = require('./middlewares/auth');
 
 const app = express();
 const port = 3000;
@@ -20,8 +22,9 @@ app.get('/', (req, res)=> {
 
 
 //rutas
-app.use('/api', usuarioRoutes);
-app.use('/api', categoriaProductoRoutes);
+app.use('/api/auth', authRoutes)
+app.use('/api', authenticateToken,usuarioRoutes);
+app.use('/api',authenticateToken, categoriaProductoRoutes);
 app.use('/api', estadoRoutes);
 app.use('/api', ordenRoutes);
 app.use('/api', ordenDetalleRoutes);
