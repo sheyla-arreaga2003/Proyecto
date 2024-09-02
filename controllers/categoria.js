@@ -1,15 +1,36 @@
-const CategoriaProducto = require("../model/categoria")
+const sequelize = require("../config/db")
 
 // Crear una nueva categoría
 exports.crearCategoria = async (req, res) => {
     try {
         const { CAT_Nombre, USU_Usuario, EST_Estado } = req.body;
-        const nuevaCategoria = await CategoriaProducto.create({ CAT_Nombre, USU_Usuario, EST_Estado });
-        res.json(nuevaCategoria);
+        
+        const CAT_Fecha_Creacion = new Date().toISOString().slice(0, 19).replace('T', ' ');
+
+
+// Ejecutar el procedimiento almacenado usando Sequelize
+        const [result] = await sequelize.query(`
+            EXEC INSERTAR_CATEGORIA_PRODUCTO 
+                @CAT_Nombre = :CAT_Nombre, 
+                @CAT_Fecha_Creacion = :CAT_Fecha_Creacion, 
+                @USU_Usuario = :USU_Usuario, 
+                @EST_Estado = :EST_Estado
+        `, {
+            replacements: {
+                CAT_Nombre,
+                CAT_Fecha_Creacion,
+                USU_Usuario,
+                EST_Estado
+            },
+            type: sequelize.QueryTypes.INSERT
+        });
+
+        res.json({ message: 'Categoría creada exitosamente', result });
     } catch (error) {
-        res.status(500).json({ error: error.message });
-    }
+        res.status(500).json({ error: error.message });
+    }
 };
+
 
 
 // Obtener todas las categorías
@@ -21,21 +42,38 @@ exports.obtenerCategorias = async (req, res) => {
         res.status(500).json({ error: error.message });
     }
 };
+
+
 // Actualizar una categoría existente
 exports.actualizarCategoria = async (req, res) => {
     try {
         const { id } = req.params;
         const { CAT_Nombre, USU_Usuario, EST_Estado } = req.body;
-        const categoria = await CategoriaProducto.findByPk(id);
 
-        if (categoria) {
-            categoria.CAT_Nombre = CAT_Nombre;
-            categoria.USU_Usuario = USU_Usuario;
-            categoria.EST_Estado = EST_Estado;
-            await categoria.save();
-            res.json(categoria);
+
+// Ejecutar el procedimiento almacenado usando Sequelize
+        const [result] = await sequelize.query(`
+            EXEC ACTUALIZAR_CATEGORIA_PRODUCTO 
+                @CAT_Categoria_Producto = :CAT_Categoria_Producto, 
+                @CAT_Nombre = :CAT_Nombre, 
+                @USU_Usuario = :USU_Usuario, 
+                @EST_Estado = :EST_Estado
+        `, {
+            replacements: {
+                CAT_Categoria_Producto: id,
+                CAT_Nombre,
+                USU_Usuario,
+                EST_Estado
+            },
+            type: sequelize.QueryTypes.UPDATE
+        });
+
+        
+// Comprobamos si se realizó alguna actualización
+        if (result) {
+            res.json({ message: 'Categoría actualizada exitosamente' });
         } else {
-            res.status(404).json({ error: 'Categoría no encontrada' });
+            res.status(404).json({ error: 'Categoría no encontrada o no actualizada' });
         }
     } catch (error) {
         res.status(500).json({ error: error.message });

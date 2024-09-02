@@ -66,4 +66,4 @@ const Orden = sequelize.define('NEG_ORDEN', {
     timestamps: false
 });
 
-module.exports = Orden;
+module.exports = Orden;

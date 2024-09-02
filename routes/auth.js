@@ -21,9 +21,9 @@ router.post('/register', async (req, res) => {
         USU_Telefono: USU_Telefono,
         USU_Fecha_Nacimiento: USU_Fecha_Nacimiento,
         USU_Fecha_Creacion: USU_Fecha_Creacion,
-        ROL_Rol: ROL_Rol,   // Asegúrate de que el rol exista en la tabla NEG_ROL
+        ROL_Rol: ROL_Rol,  
         EST_Estado: EST_Estado
-        // Rellenar el resto de los campos necesarios
+        
     });
 
     try {
@@ -33,9 +33,6 @@ router.post('/register', async (req, res) => {
         res.status(400).send(err);
     }
 });
-
-
-
 
 
 
@@ -59,8 +56,7 @@ router.post('/login', async (req, res) => {
 
     }catch (err) {
         res.status(500).send('Server error' );
-        console.error('Error comparing passwords:', error);
+        console.error('Error comparing passwords:', err);
     }
 });
-
 module.exports = router;

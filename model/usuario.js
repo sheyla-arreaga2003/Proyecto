@@ -74,4 +74,5 @@ const Usuario = sequelize.define('NEG_USUARIO', {
         }
     }
 });
-module.exports = Usuario;
+
+module.exports = Usuario;

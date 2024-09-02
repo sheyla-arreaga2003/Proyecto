@@ -42,4 +42,4 @@ const OrdenDetalle = sequelize.define('NEG_ORDEN_DETALLE', {
     timestamps: false
 });
 
-module.exports = OrdenDetalle;
+module.exports = OrdenDetalle;

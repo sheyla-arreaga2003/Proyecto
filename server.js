@@ -21,17 +21,17 @@ app.get('/', (req, res)=> {
 })
 
 
-//rutas
+//rutas encriptar
 app.use('/api/auth', authRoutes)
 app.use('/api', authenticateToken,usuarioRoutes);
 app.use('/api',authenticateToken, categoriaProductoRoutes);
-app.use('/api', estadoRoutes);
-app.use('/api', ordenRoutes);
-app.use('/api', ordenDetalleRoutes);
-app.use('/api', productoRoutes);
+app.use('/api', authenticateToken,estadoRoutes);
+app.use('/api',authenticateToken, ordenRoutes);
+app.use('/api', authenticateToken,ordenDetalleRoutes);
+app.use('/api', authenticateToken,productoRoutes);
 
 
-
+//prueba para conexion de base de datos
 app.get('/db-test', (req, res) => {
     try {
       sequelize.authenticate();

@@ -16,4 +16,4 @@ const Estado = sequelize.define('NEG_ESTADO', {
     tableName: 'NEG_ESTADO'
   });
   
-  module.exports = Estado;
+  module.exports = Estado;

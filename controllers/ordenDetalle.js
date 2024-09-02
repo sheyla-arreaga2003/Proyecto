@@ -1,4 +1,4 @@
-const OrdenDetalle = require('../model/ordenDetalle');
+const OrdenDetalle = require('../config/db');
 
 // Obtener detalles de una orden
 exports.getDetalles = async (req, res) => {

@@ -1,6 +1,8 @@
 const express = require('express');
 const categoriaProductoController = require('../controllers/categoria');
 
+//definicion de rutas
+//invocacion de metodos del controlador
 const router = express.Router();
 
 router.post('/categoria', categoriaProductoController.crearCategoria);

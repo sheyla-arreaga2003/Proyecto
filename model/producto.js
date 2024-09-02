@@ -65,4 +65,4 @@ const Producto = sequelize.define('NEG_PRODUCTO', {
     timestamps: false
 });
 
-module.exports = Producto;
+module.exports = Producto;
