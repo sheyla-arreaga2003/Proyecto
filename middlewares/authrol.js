@@ -8,25 +8,30 @@ const sequelize = new Sequelize('NEGOCIO', 'Sheyla', 'Troya_123!', {
 // Función para obtener el rol del usuario desde la base de datos
 async function getUserRole(userId) {
     try {
-        const [results] = await sequelize.query(
+        // Realizar la consulta
+        const results = await sequelize.query(
             `EXEC ObtenerRolDeUsuario :userId`,
             {
                 replacements: { userId: userId },
-                type: Sequelize.QueryTypes.SELECTS
+                type: Sequelize.QueryTypes.SELECT
             }
         );
-        console.log("PRIMER "+ results)
+        console.log(results)
         // Verificar que los resultados son correctos
         if (!results || results.length === 0) {
             throw new Error('No role found for the user');
         }
-        const result = results.ROL_Rol;
+        const result = results[0]; // result es un objeto con la propiedad ROL_Rol
 
-        console.log("SEGUNDO "+result)
+        // Extraer el rol
+        const userRole = result.ROL_Rol;
+        console.log(userRole);
+
+        console.log(result)
 
         
             
-        return result;
+        return userRole;
     } catch (error) {
         console.error('Database query error:', error);
         throw error;
